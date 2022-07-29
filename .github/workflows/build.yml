@@ -27,7 +27,7 @@ jobs:
       run: ./download.sh
 
     - name: Build base image
-      run: ./build.sh
+      run: sudo ./build.sh
 
     - name: Cleanup SteamOS image
       run: rm -rf ./steamos_image ./steamos
