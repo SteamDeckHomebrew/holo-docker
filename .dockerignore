@@ -1,1 +1,13 @@
 steamos/mnt
+# steamos/usr/lib/modules
+steamos/usr/lib/steam
+# steamos/usr/lib/firmware
+# steamos/usr/lib/firefox
+steamos/usr/share/jupiter_bios
+steamos/usr/share/wallpapers
+steamos/usr/share/icons
+steamos/usr/share/fonts
+steamos/usr/share/clc
+steamos/boot
+steamos_image
+steamos.zip
