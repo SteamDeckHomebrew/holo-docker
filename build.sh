@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
 LOOP=$(losetup --find --partscan --show ./steamos_image/disk.img)
