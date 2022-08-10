@@ -8,8 +8,8 @@ RUN pacman -R --noconfirm accounts-qml-module accountsservice adobe-source-code-
  && pacman-key --populate archlinux \
  && pacman-key --populate holo \
  && pacman -Sy \
- && comm -1 -2  <(pacman -Qeq | sort) <(pacman -Qoq /usr/include/ | sort) | pacman -S - \
- && comm -1 -2  <(pacman -Qdq | sort) <(pacman -Qoq /usr/include/ | sort) | sudo pacman -S --asdeps - \
+#  && comm -1 -2  <(pacman -Qeq | sort) <(pacman -Qoq /usr/include/ | sort) | pacman -S - \
+ && comm -1 -2  <(pacman -Qdq | sort) <(pacman -Qoq /usr/include/ | sort) | pacman -S --asdeps - \
  && pacman -S --noconfirm autoconf automake bison fakeroot flex m4 tpm2-tss \
  && yes | pacman -Scc
 
