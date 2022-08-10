@@ -7,7 +7,8 @@ RUN pacman -R --noconfirm accounts-qml-module accountsservice adobe-source-code-
  && pacman-key --init \
  && pacman-key --populate archlinux \
  && pacman-key --populate holo \
- && pacman -Sy --noconfirm autoconf automake bison fakeroot flex m4 tpm2-tss \
+ && pacman -Sy --noconfirm $(pacman -Qq) \
+ && pacman -S --noconfirm autoconf automake bison fakeroot flex m4 tpm2-tss \
  && yes | pacman -Scc
 
 FROM scratch
