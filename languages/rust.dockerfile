@@ -1,3 +1,3 @@
 FROM ghcr.io/steamdeckhomebrew/holo-base:latest
 
-RUN pacman -Sy --noconfirm rust
+RUN pacman -Sy --noconfirm rustup && rustup install stable
