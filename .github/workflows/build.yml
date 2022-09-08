@@ -19,7 +19,7 @@ jobs:
     
     - name: Login to GitHub Container Registry
       run: |
-        echo $GITHUB_TOKEN | docker login ghcr.io -u SteamDeckHomebrew --password-stdin
+        echo $GITHUB_TOKEN | docker login ghcr.io -u D3fau4 --password-stdin
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -35,17 +35,17 @@ jobs:
     - name: Build Rust toolchain image
       run: |
         cd languages
-        docker build -t ghcr.io/steamdeckhomebrew/holo-toolchain-rust:latest -f ./rust.dockerfile .
+        docker build -t ghcr.io/D3fau4/holo-toolchain-rust:latest -f ./rust.dockerfile .
 
     - name: Build Go toolchain image
       run: |
         cd languages
-        docker build -t ghcr.io/steamdeckhomebrew/holo-toolchain-go:latest -f ./go.dockerfile .
+        docker build -t ghcr.io/D3fau4/holo-toolchain-go:latest -f ./go.dockerfile .
     
     - name: Build c++ toolchain image
       run: |
         cd languages
-        docker build -t ghcr.io/steamdeckhomebrew/holo-toolchain-c:latest -f ./c.dockerfile .
+        docker build -t ghcr.io/D3fau4/holo-toolchain-c:latest -f ./c.dockerfile .
     
     - name: Wait for other runs to complete
       uses: softprops/turnstyle@v1
@@ -53,13 +53,16 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Push Base image
-      run: docker push ghcr.io/steamdeckhomebrew/holo-base:latest
+      run: docker push ghcr.io/D3fau4/holo-base:latest
 
     - name: Push Rust toolchain image
-      run: docker push ghcr.io/steamdeckhomebrew/holo-toolchain-rust:latest
+      run: docker push ghcr.io/D3fau4/holo-toolchain-rust:latest
 
     - name: Push Go toolchain image
-      run: docker push ghcr.io/steamdeckhomebrew/holo-toolchain-go:latest
+      run: docker push ghcr.io/D3fau4/holo-toolchain-go:latest
+
+    - name: Push c++ toolchain image
+      run: docker push ghcr.io/D3fau4/holo-toolchain-c:latest
 
     - name: Log out of GitHub Container Registry
       run: |
