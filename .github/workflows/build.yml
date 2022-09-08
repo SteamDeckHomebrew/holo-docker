@@ -45,7 +45,7 @@ jobs:
     - name: Build c++ toolchain image
       run: |
         cd languages
-        docker build -t ghcr.io/steamdeckhomebrew/holo-toolchain-c++:latest -f ./c++.dockerfile .
+        docker build -t ghcr.io/steamdeckhomebrew/holo-toolchain-c:latest -f ./c.dockerfile .
     
     - name: Wait for other runs to complete
       uses: softprops/turnstyle@v1
