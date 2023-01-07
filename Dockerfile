@@ -11,7 +11,7 @@ RUN pacman -R --noconfirm accounts-qml-module accountsservice adobe-source-code-
  && pacman -Sy \
 #  && comm -1 -2  <(pacman -Qeq | sort) <(pacman -Qoq /usr/include/ | sort) | pacman -S --noconfirm - \
  && comm -1 -2  <(pacman -Qdq | sort) <(pacman -Qoq /usr/include/ | sort) | pacman -S --noconfirm --asdeps - \
- && pacman -S --noconfirm autoconf automake bison fakeroot flex m4 tpm2-tss \
+ && pacman -S --noconfirm gcc make autoconf automake bison fakeroot flex m4 tpm2-tss \
  && yes | pacman -Scc
 
 FROM scratch
