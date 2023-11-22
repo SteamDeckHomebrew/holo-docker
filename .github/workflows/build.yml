@@ -18,6 +18,7 @@ jobs:
         fetch-depth: 0
     
     - name: Login to GitHub Container Registry
+      if: ${{ !env.ACT }}
       run: |
         echo $GITHUB_TOKEN | docker login ghcr.io -u SteamDeckHomebrew --password-stdin
       env:
@@ -33,29 +34,36 @@ jobs:
       run: rm -rf ./steamos_image ./steamos
 
     - name: Build Rust toolchain image
+      if: ${{ !env.ACT }}
       run: |
         cd languages
         docker build -t ghcr.io/steamdeckhomebrew/holo-toolchain-rust:latest -f ./rust.dockerfile .
 
     - name: Build Go toolchain image
+      if: ${{ !env.ACT }}
       run: |
         cd languages
         docker build -t ghcr.io/steamdeckhomebrew/holo-toolchain-go:latest -f ./go.dockerfile .
 
     - name: Wait for other runs to complete
+      if: ${{ !env.ACT }}
       uses: softprops/turnstyle@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Push Base image
+      if: ${{ !env.ACT }}
       run: docker push ghcr.io/steamdeckhomebrew/holo-base:latest
 
     - name: Push Rust toolchain image
+      if: ${{ !env.ACT }}
       run: docker push ghcr.io/steamdeckhomebrew/holo-toolchain-rust:latest
 
     - name: Push Go toolchain image
+      if: ${{ !env.ACT }}
       run: docker push ghcr.io/steamdeckhomebrew/holo-toolchain-go:latest
 
     - name: Log out of GitHub Container Registry
+      if: ${{ !env.ACT }}
       run: |
         docker logout ghcr.io
