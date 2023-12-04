@@ -16,6 +16,6 @@ FILE=$(echo "$IMAGE" | jq -r ".update_path" | sed 's/\.raucb/\.img.zip/')
 # Output the downloaded version for github actions to tag the images
 echo "BUILD_ID=$(echo "$IMAGE" | jq -r '.image.buildid')"
 FULL_VERSION="$(echo "$IMAGE" | jq -r '.image.version')"
-echo "$FULL_VERSION=${FULL_VERSION}"
+echo "FULL_VERSION=${FULL_VERSION}"
 echo "MAJOR_VERSION=$(echo "$FULL_VERSION" | cut -d. -f 1)"
 echo "MINOR_VERSION=$(echo "$FULL_VERSION" | cut -d. -f 1,2)"
