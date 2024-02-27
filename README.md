@@ -1,2 +1,31 @@
 # holo-docker
-Docker images of SteamOS Holo
+Linux container images of SteamOS Holo
+
+## Getting Started
+
+```sh
+./download.sh
+./build.sh
+./push_image.sh
+```
+
+### SteamDeck
+
+These scripts should work just fine on an actual SteamDeck, assuming that it is up-to-date. However you will need to do just a little bit of setup, as the default location for container storage is much too small for this.
+
+```sh
+mkdir ~/containers
+sudo cp -a /var/lib/container/storage ~/containers/storage
+sudo vim /etc/containers/storage.conf
+```
+
+Change the line that reads:
+
+- `graphroot = "/var/lib/containers/storage"`
+
+to
+
+- `graphroot = "/home/deck/containers/storage"`
+
+You will also need to use the `sudo` command when running the build and push scripts.
+
