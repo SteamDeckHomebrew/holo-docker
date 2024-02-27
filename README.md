@@ -11,7 +11,7 @@ Linux container images of SteamOS Holo
 
 ### SteamDeck
 
-These scripts should work just fine on an actual SteamDeck, assuming that it is up-to-date. However you will need to do just a little bit of setup, as the default location for container storage is much too small for this.
+These scripts should work just fine on an actual SteamDeck, assuming that SteamOS is up-to-date, and you are comfortable using the SteamDeck terminal. However you will need to do just a little bit of setup, as the default location for container storage is much too small for this.
 
 ```sh
 mkdir ~/containers
@@ -27,5 +27,5 @@ to
 
 - `graphroot = "/home/deck/containers/storage"`
 
-You will also need to use the `sudo` command when running the build and push scripts.
+You will also need to use the `sudo` command when running the top-level build and push scripts.
 
