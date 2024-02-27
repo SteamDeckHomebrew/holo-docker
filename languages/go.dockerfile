@@ -1,3 +1,3 @@
-FROM ghcr.io/steamdeckhomebrew/holo-base:latest
+FROM docker.io/spkane/holo-base:latest
 
 RUN pacman -Sy --noconfirm go go-tools
