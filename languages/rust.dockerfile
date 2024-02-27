@@ -1,4 +1,6 @@
-FROM docker.io/spkane/holo-base:latest
+ARG image_name
+
+FROM ${image_name}
 
 ENV RUSTUP_HOME=/.rustup
 ENV CARGO_HOME=/.cargo
