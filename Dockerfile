@@ -1,4 +1,4 @@
-FROM scratch as builder
+FROM scratch AS builder
 ADD ./steamos /
 ADD ./steamos/usr/share/factory /
 
@@ -14,5 +14,7 @@ RUN pacman -R --noconfirm podman distrobox crun steamos-kdumpst-layer jupiter-st
  && pacman -S --noconfirm gcc make autoconf automake bison fakeroot flex m4 tpm2-tss \
  && yes | pacman -Scc
 
-FROM scratch
+FROM scratch AS final
+
 COPY --from=builder / /
+

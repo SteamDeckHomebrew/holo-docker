@@ -27,20 +27,24 @@ jobs:
       run: ./download.sh
 
     - name: Build base image
-      run: sudo ./build.sh
+      run: |
+        cp example.env .env
+        sudo ./build.sh
 
     - name: Cleanup SteamOS image
       run: rm -rf ./steamos_image ./steamos
 
     - name: Build Rust toolchain image
       run: |
+        cp example.env .env
         cd languages
-        docker build -t ghcr.io/steamdeckhomebrew/holo-toolchain-rust:latest -f ./rust.dockerfile .
+        ./build.sh rust
 
     - name: Build Go toolchain image
       run: |
+        cp example.env .env
         cd languages
-        docker build -t ghcr.io/steamdeckhomebrew/holo-toolchain-go:latest -f ./go.dockerfile .
+        ./build.sh go
 
     - name: Wait for other runs to complete
       uses: softprops/turnstyle@v1
@@ -59,3 +63,4 @@ jobs:
     - name: Log out of GitHub Container Registry
       run: |
         docker logout ghcr.io
+
