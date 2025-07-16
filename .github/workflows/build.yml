@@ -58,7 +58,7 @@ jobs:
         done
 
     - name: Wait for other runs to complete
-      uses: softprops/turnstyle@v1
+      uses: softprops/turnstyle@v2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
