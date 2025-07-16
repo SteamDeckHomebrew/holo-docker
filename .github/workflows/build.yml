@@ -69,7 +69,7 @@ jobs:
       run: docker push --all-tags ghcr.io/steamdeckhomebrew/holo-toolchain-rust
 
     - name: Push Go toolchain image
-      run: docker push --all-tags ghcr.io/steamdeckhomebrew/holo-toolchain-go:latest
+      run: docker push --all-tags ghcr.io/steamdeckhomebrew/holo-toolchain-go
 
     - name: Log out of GitHub Container Registry
       run: |
