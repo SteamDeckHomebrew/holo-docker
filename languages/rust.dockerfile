@@ -1,4 +1,4 @@
-FROM ghcr.io/steamdeckhomebrew/holo-base:latest
+FROM holo-base:ci-build
 
 ENV RUSTUP_HOME=/.rustup
 ENV CARGO_HOME=/.cargo

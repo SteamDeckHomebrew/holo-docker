@@ -1,3 +1,3 @@
-FROM ghcr.io/steamdeckhomebrew/holo-base:latest
+FROM holo-base:ci-build
 
 RUN pacman -Sy --noconfirm go go-tools

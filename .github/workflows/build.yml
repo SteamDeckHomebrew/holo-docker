@@ -8,8 +8,28 @@ on:
 
 jobs:
   build:
-    name: Build
+    name: Build ${{ matrix.channel_tag }}
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - steamos_channel: steamdeck
+            channel_tag: stable
+            latest_tag: latest
+            version_prefix: ''
+          - steamos_channel: steamdeck-beta
+            channel_tag: beta
+            latest_tag: ''
+            version_prefix: beta-
+          - steamos_channel: steamdeck-preview
+            channel_tag: preview
+            latest_tag: ''
+            version_prefix: preview-
+          - steamos_channel: steamdeck-main
+            channel_tag: main
+            latest_tag: ''
+            version_prefix: main-
 
     steps:
     - name: Checkout
@@ -25,7 +45,7 @@ jobs:
 
     - name: Download SteamOS
       id: download
-      run: ./download.sh >>$GITHUB_OUTPUT
+      run: ./download.sh "${{ matrix.steamos_channel }}" >>$GITHUB_OUTPUT
 
     - name: Build and tag base image
       run: |
@@ -37,25 +57,35 @@ jobs:
     - name: Build Rust toolchain image
       run: |
         cd languages
-        docker build -t ghcr.io/steamdeckhomebrew/holo-toolchain-rust:latest -f ./rust.dockerfile .
+        docker build -t holo-toolchain-rust:ci-build -f ./rust.dockerfile .
 
     - name: Build Go toolchain image
       run: |
         cd languages
-        docker build -t ghcr.io/steamdeckhomebrew/holo-toolchain-go:latest -f ./go.dockerfile .
+        docker build -t holo-toolchain-go:ci-build -f ./go.dockerfile .
 
-    - name: Tag all images
+    - name: Tag images
       run: |
-        for tag in \
-            "${{ steps.download.outputs.BUILD_ID }}" \
-            "${{ steps.download.outputs.FULL_VERSION }}" \
-            "${{ steps.download.outputs.MAJOR_VERSION }}" \
-            "${{ steps.download.outputs.MINOR_VERSION }}"
+        channel_tag="${{ matrix.channel_tag }}"
+        version_prefix="${{ matrix.version_prefix }}"
+        version_tags="${version_prefix}${{ steps.download.outputs.BUILD_ID }} ${version_prefix}${{ steps.download.outputs.FULL_VERSION }} ${version_prefix}${{ steps.download.outputs.MAJOR_VERSION }} ${version_prefix}${{ steps.download.outputs.MINOR_VERSION }}"
+
+        docker tag holo-base:ci-build ghcr.io/steamdeckhomebrew/holo-base:$channel_tag
+        docker tag holo-toolchain-rust:ci-build ghcr.io/steamdeckhomebrew/holo-toolchain-rust:$channel_tag
+        docker tag holo-toolchain-go:ci-build ghcr.io/steamdeckhomebrew/holo-toolchain-go:$channel_tag
+
+        for version_tag in $version_tags
         do
-          docker tag ghcr.io/steamdeckhomebrew/holo-base:latest             ghcr.io/steamdeckhomebrew/holo-base:$tag
-          docker tag ghcr.io/steamdeckhomebrew/holo-toolchain-rust:latest   ghcr.io/steamdeckhomebrew/holo-toolchain-rust:$tag
-          docker tag ghcr.io/steamdeckhomebrew/holo-toolchain-go:latest     ghcr.io/steamdeckhomebrew/holo-toolchain-go:$tag
+          docker tag holo-base:ci-build ghcr.io/steamdeckhomebrew/holo-base:$version_tag
+          docker tag holo-toolchain-rust:ci-build ghcr.io/steamdeckhomebrew/holo-toolchain-rust:$version_tag
+          docker tag holo-toolchain-go:ci-build ghcr.io/steamdeckhomebrew/holo-toolchain-go:$version_tag
         done
+
+        if [ -n "${{ matrix.latest_tag }}" ]; then
+          docker tag holo-base:ci-build ghcr.io/steamdeckhomebrew/holo-base:${{ matrix.latest_tag }}
+          docker tag holo-toolchain-rust:ci-build ghcr.io/steamdeckhomebrew/holo-toolchain-rust:${{ matrix.latest_tag }}
+          docker tag holo-toolchain-go:ci-build ghcr.io/steamdeckhomebrew/holo-toolchain-go:${{ matrix.latest_tag }}
+        fi
 
     - name: Wait for other runs to complete
       uses: softprops/turnstyle@v2

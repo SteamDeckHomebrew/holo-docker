@@ -1,9 +1,17 @@
 #!/bin/sh
 set -e
 
+CHANNEL="$1"
+
+if [ -z "$CHANNEL" ]; then
+    echo "Usage: $0 <channel>" >&2
+    exit 1
+fi
+
 # these are hardcoded and can be found in ~/.netrc
 AUTH="jupiter-image-2021:e54fe7f0-756e-46e1-90d2-7843cda0ac01"
-IMAGE="$(curl -sS --user $AUTH "https://steamdeck-atomupd.steamos.cloud/updates?product=steamos&release=holo&variant=steamdeck&arch=amd64&version=snapshot&buildid=20220526.1&checkpoint=False&estimated_size=0" | jq -r '.minor.candidates[0]')"
+METADATA_URL="https://steamdeck-atomupd.steamos.cloud/meta/steamos/amd64/snapshot/${CHANNEL}.json"
+IMAGE="$(curl -fsSL --user "$AUTH" "$METADATA_URL" | jq -r '.minor.candidates[0]')"
 FILE=$(echo "$IMAGE" | jq -r ".update_path" | sed 's/\.raucb/\.img.zst/')
 
 {
